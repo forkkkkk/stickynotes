@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 module.exports = {
     entry: './index.js',
     output: {
@@ -18,7 +19,11 @@ module.exports = {
         rules:[
             {
                 test: /\.css$/,
-                use:[{loader: 'style-loader'},{loader: 'css-loader'}]
+                exclude:/node_modules/,
+                use: ExtractTextPlugin.extract({
+                    fallback:'style-loader',
+                    use: 'css-loader'
+                })
             },
             {
                 test: /\.png$/,
@@ -32,7 +37,6 @@ module.exports = {
             template:'./index.template.html'
         }),
         new webpack.optimize.UglifyJsPlugin(),
-        new ExtractTextPlugin('index.css')
-
+        new ExtractTextPlugin('aa.css')
     ]
 }
